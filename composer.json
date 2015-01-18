@@ -1,0 +1,21 @@
+{
+  "name": "mnel/peach",
+  "description": "A peach payments PHP Client",
+  "authors": [
+    {
+      "name": "Michael Nel",
+      "email": "michael.a.nel1@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=5.5.0",
+    "guzzlehttp/guzzle": "4.1.0",
+    "nesbot/carbon": ">=1.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Mnel\\Peach\\": "src/"
+    }
+  },
+  "minimum-stability": "stable"
+}
