@@ -3,7 +3,7 @@
 use Mnel\Peach\Commands\Command;
 use Mnel\Peach\Query\Request\QueryRequest;
 
-class QueryCommand extends Command
+class QueryCommand implements Command
 {
     /** @var QueryRequest */
     private $request;
