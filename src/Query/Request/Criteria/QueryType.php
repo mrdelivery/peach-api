@@ -54,4 +54,28 @@ class QueryType
      *      “available” are not confirmed registrations also.
      */
     const AVAILABLE_LINKED_TRANSACTIONS = 'AVAILABLE_LINKED_TRANSACTIONS';
+
+    /** @var string */
+    private $value;
+
+    /**
+     * @param string $value
+     */
+    function __construct($value)
+    {
+        $this->value = $value;
+    }
+
+    /**
+     * @return string
+     */
+    public function getValue()
+    {
+        return $this->value;
+    }
+
+    public function __toString()
+    {
+        return $this->getValue();
+    }
 }

@@ -22,7 +22,6 @@ class XmlQueryResponseTransformer implements QueryResponseTransformer
     public function transform(ResponseInterface $response)
     {
         $xml = $response->xml();
-//        dd(htmlentities($xml->asXML()));
 
         if (!empty($xml->Error)) {
             $timestamp = (string) $xml->Error->Timestamp;

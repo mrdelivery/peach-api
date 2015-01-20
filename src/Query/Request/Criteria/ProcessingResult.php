@@ -15,6 +15,9 @@ class ProcessingResult
     /** @var string */
     private $value;
 
+    /**
+     * @param string $value
+     */
     function __construct($value)
     {
         $this->value = $value;
@@ -30,6 +33,6 @@ class ProcessingResult
 
     public function __toString()
     {
-        return $this->value;
+        return $this->getValue();
     }
 }

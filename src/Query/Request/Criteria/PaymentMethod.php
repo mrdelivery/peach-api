@@ -9,9 +9,7 @@ class PaymentMethod
 {
     // TODO what are all of the codes??
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $code;
 
     function __construct($code)
@@ -25,5 +23,10 @@ class PaymentMethod
     public function getCode()
     {
         return $this->code;
+    }
+
+    public function __toString()
+    {
+        return $this->getCode();
     }
 }

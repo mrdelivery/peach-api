@@ -55,7 +55,6 @@ class XmlQueryRequestTransformer implements QueryRequestTransformer
         if ($account = $request->getQuery()->getAccount()) {
             $this->setAccount($account, $xmlRequest);
         }
-//        dd(htmlentities($xmlRequest->asXML()));
 
         return [ 'load' => $xmlRequest->asXML() ];
     }

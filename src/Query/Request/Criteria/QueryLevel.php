@@ -19,4 +19,28 @@ class QueryLevel
      * (ID specified with entity is a PSP ID)
      */
     const PSP = 'PSP';
+
+    /** @var string */
+    private $value;
+
+    /**
+     * @param string $value
+     */
+    function __construct($value)
+    {
+        $this->value = $value;
+    }
+
+    /**
+     * @return string
+     */
+    public function getValue()
+    {
+        return $this->value;
+    }
+
+    public function __toString()
+    {
+        return $this->getValue();
+    }
 }

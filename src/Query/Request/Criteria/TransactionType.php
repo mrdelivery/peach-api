@@ -33,6 +33,9 @@ class TransactionType
     /** @var string */
     private $value;
 
+    /**
+     * @param string $value
+     */
     function __construct($value)
     {
         $this->value = $value;
@@ -44,5 +47,10 @@ class TransactionType
     public function getValue()
     {
         return $this->value;
+    }
+
+    public function __toString()
+    {
+        return $this->getValue();
     }
 }

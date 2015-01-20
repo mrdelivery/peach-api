@@ -27,6 +27,6 @@ class PaymentType
 
     public function __toString()
     {
-        return $this->code;
+        return $this->getCode();
     }
 }
