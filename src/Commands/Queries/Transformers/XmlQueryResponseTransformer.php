@@ -16,12 +16,13 @@ use Mnel\Peach\Query\Response\Results\Payments\Payment;
 use Mnel\Peach\Query\Response\Results\Payments\Presentation;
 use Mnel\Peach\Query\Response\Results\Processing;
 use Mnel\Peach\Query\Response\Results\Transaction;
+use SimpleXMLElement;
 
 class XmlQueryResponseTransformer implements QueryResponseTransformer
 {
-    public function transform(ResponseInterface $response)
+    public function transform($response)
     {
-        $xml = $response->xml();
+        $xml = new SimpleXMLElement($response);
 
         if (!empty($xml->Error)) {
             $timestamp = (string) $xml->Error->Timestamp;
@@ -59,7 +60,7 @@ class XmlQueryResponseTransformer implements QueryResponseTransformer
     }
 
     /**
-     * @param \SimpleXMLElement $xmlTransaction
+     * @param SimpleXMLElement $xmlTransaction
      * @return \Mnel\Peach\Query\Response\Results\Identification
      */
     protected function parseIdentification($xmlTransaction)
@@ -73,7 +74,7 @@ class XmlQueryResponseTransformer implements QueryResponseTransformer
     }
 
     /**
-     * @param \SimpleXMLElement $xmlTransaction
+     * @param SimpleXMLElement $xmlTransaction
      * @return \Mnel\Peach\Query\Response\Results\Payments\Payment
      */
     protected function parsePayment($xmlTransaction)
@@ -96,7 +97,7 @@ class XmlQueryResponseTransformer implements QueryResponseTransformer
     }
 
     /**
-     * @param \SimpleXMLElement $xmlTransaction
+     * @param SimpleXMLElement $xmlTransaction
      * @return \Mnel\Peach\Query\Response\Results\Account
      */
     protected function parseAccount($xmlTransaction)
@@ -115,7 +116,7 @@ class XmlQueryResponseTransformer implements QueryResponseTransformer
     }
 
     /**
-     * @param \SimpleXMLElement $xmlTransaction
+     * @param SimpleXMLElement $xmlTransaction
      * @return Customer
      */
     protected function parseCustomer($xmlTransaction)
@@ -142,7 +143,7 @@ class XmlQueryResponseTransformer implements QueryResponseTransformer
     }
 
     /**
-     * @param \SimpleXMLElement $xmlTransaction
+     * @param SimpleXMLElement $xmlTransaction
      * @return \Mnel\Peach\Query\Response\Results\Processing
      */
     protected function parseProcessing($xmlTransaction)

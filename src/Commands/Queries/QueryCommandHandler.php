@@ -46,7 +46,7 @@ class QueryCommandHandler implements CommandHandler
 
         $guzzleResponse = $this->guzzle->post($request->getUrl(), ['body' => $payload]);
 
-        $response = $this->responseTransformer->transform($guzzleResponse);
+        $response = $this->responseTransformer->transform($guzzleResponse->xml()->asXML());
 
         if ($responseError = $response->getError()) {
             throw new ResponseException($responseError);

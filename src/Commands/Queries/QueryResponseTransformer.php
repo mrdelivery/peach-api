@@ -6,8 +6,8 @@ use Mnel\Peach\Query\Response\Response;
 interface QueryResponseTransformer
 {
     /**
-     * @param $response
+     * @param string $response
      * @return Response
      */
-    public function transform(ResponseInterface $response);
+    public function transform($response);
 }
