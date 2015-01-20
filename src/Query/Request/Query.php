@@ -209,8 +209,23 @@ class Query
     /**
      * @param array|\Mnel\Peach\Query\Request\Criteria\PaymentMethod[] $paymentMethods
      */
-    public function setPaymentMethods($paymentMethods)
+    public function setPaymentMethods(array $paymentMethods)
     {
+        $this->paymentMethods = $paymentMethods;
+    }
+
+    /**
+     * @param array $paymentMethodCodes
+     * @internal param array|Criteria\PaymentMethod[] $paymentMethods
+     */
+    public function setPaymentMethodsByCode(array $paymentMethodCodes) //TODO: test
+    {
+        $paymentMethods = [];
+
+        foreach ($paymentMethodCodes as $paymentMethodCode) {
+            $paymentMethods[] = new PaymentMethod($paymentMethodCode);
+        }
+
         $this->paymentMethods = $paymentMethods;
     }
 
