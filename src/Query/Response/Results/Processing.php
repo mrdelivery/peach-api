@@ -47,7 +47,7 @@ class Processing
         $connectorTxId
     ) {
         $this->code = $code;
-        $this->timestamp = $timestamp;
+        $this->timestamp = Carbon::parse($timestamp);
         $this->result = $result;
         $this->status = $status;
         $this->statusCode = $statusCode;
