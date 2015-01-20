@@ -4,6 +4,7 @@ use GuzzleHttp\Client;
 use Mnel\Peach\Commands\Command;
 use Mnel\Peach\Commands\CommandHandler;
 use Mnel\Peach\Commands\Queries\QueryCommand;
+use Mnel\Peach\Query\Response\ResponseException;
 
 class QueryCommandHandler implements CommandHandler
 {
