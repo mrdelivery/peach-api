@@ -1,5 +1,6 @@
 <?php namespace Mnel\Peach\Query\Response\Results;
 
+use Mnel\Peach\Query\Request\Criteria\ProcessingResult;
 use Mnel\Peach\Query\Response\Results\Customers\Customer;
 use Mnel\Peach\Query\Response\Results\Payments\Payment;
 
@@ -42,6 +43,20 @@ class Transaction
      */
     private $processing;
 
+    public static $successfulReturnCodes = [
+        '000.000.000',
+        '000.400.000',
+        '000.400.010',
+        '000.400.020',
+        '000.400.030',
+        '000.400.040',
+        '000.400.050',
+        '000.400.060',
+        '000.400.070',
+        '000.400.080',
+        '000.400.090',
+    ];
+
     function __construct($mode, $channel, $response, $source, Identification $identification, Payment $payment, Account $account, Customer $customer, Processing $processing)
     {
         $this->mode = $mode;
@@ -53,6 +68,15 @@ class Transaction
         $this->account = $account;
         $this->customer = $customer;
         $this->processing = $processing;
+    }
+
+    public function isSuccessful() //TODO: test
+    {
+        $successfulResult = $this->getProcessing()->getResult() == ProcessingResult::ACK;
+
+        $isSuccessfulReturnCode = in_array($this->getProcessing()->getReturnCode(), static::$successfulReturnCodes);
+
+        return $successfulResult && $isSuccessfulReturnCode;
     }
 
     /**
