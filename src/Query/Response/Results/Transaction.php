@@ -79,6 +79,16 @@ class Transaction
         return $successfulResult && $isSuccessfulReturnCode;
     }
 
+    public function isCredit()
+    {
+        return in_array($this->getPayment()->getCode(), [ 'CC.CP', 'CC.DB' ]);
+    }
+
+    public function isDebit()
+    {
+        return in_array($this->getPayment()->getCode(), [ 'CC.RV', 'CC.RF' ]);
+    }
+
     /**
      * @return string
      */
