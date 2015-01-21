@@ -16,7 +16,7 @@ class QueryRequest
     private $query;
 
     /** @var array|string[] */
-    private $queryModeUrls = [
+    private static $queryModeUrls = [
         QueryMode::LIVE            => 'https://ctpe.net/payment/query',
         QueryMode::INTEGRATOR_TEST => 'https://test.ctpe.net/payment/query',
         QueryMode::CONNECTOR_TEST  => 'https://test.ctpe.net/payment/query',
@@ -35,7 +35,7 @@ class QueryRequest
     {
         $mode = $this->getQuery()->getMode();
 
-        return $this->queryModeUrls[ $mode ];
+        return static::$queryModeUrls[ $mode ];
     }
 
 
