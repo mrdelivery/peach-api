@@ -1,6 +1,6 @@
 <?php namespace Mnel\Peach\Commands\Queries;
 
-use GuzzleHttp\Client;
+use Mnel\Peach\Client\Client;
 use Mnel\Peach\Commands\Command;
 use Mnel\Peach\Commands\CommandHandler;
 use Mnel\Peach\Commands\Queries\QueryCommand;
@@ -8,8 +8,8 @@ use Mnel\Peach\Query\Response\ResponseException;
 
 class QueryCommandHandler implements CommandHandler
 {
-    /** @var GuzzleClient */
-    private $guzzle;
+    /** @var Client */
+    private $client;
 
     /** @var QueryRequestTransformer */
     private $requestTransformer;
@@ -17,9 +17,9 @@ class QueryCommandHandler implements CommandHandler
     /** @var QueryResponseTransformer */
     private $responseTransformer;
 
-    public function __construct(Client $guzzle, QueryRequestTransformer $requestTransformer, QueryResponseTransformer $responseTransformer)
+    public function __construct(Client $client, QueryRequestTransformer $requestTransformer, QueryResponseTransformer $responseTransformer)
     {
-        $this->guzzle = $guzzle;
+        $this->client = $client;
         $this->requestTransformer = $requestTransformer;
         $this->responseTransformer = $responseTransformer;
     }
@@ -45,9 +45,9 @@ class QueryCommandHandler implements CommandHandler
 
         $payload = $this->requestTransformer->transform($request);
 
-        $guzzleResponse = $this->guzzle->post($request->getUrl(), ['body' => $payload]);
+        $responseData = $this->client->post($request->getUrl(), $payload);
 
-        $response = $this->responseTransformer->transform($guzzleResponse->xml()->asXML());
+        $response = $this->responseTransformer->transform($responseData);
 
         if ($responseError = $response->getError()) {
             throw new ResponseException($responseError);

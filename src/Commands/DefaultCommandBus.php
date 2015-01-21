@@ -18,5 +18,4 @@ class DefaultCommandBus implements CommandBus
 
         return $handler->handle($command);
     }
-
 }
