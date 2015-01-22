@@ -17,4 +17,28 @@ class Customer
         $this->contact = $contact;
         $this->name = $name;
     }
+
+    /**
+     * @return CustomerAddress
+     */
+    public function getAddress()
+    {
+        return $this->address;
+    }
+
+    /**
+     * @return CustomerContact
+     */
+    public function getContact()
+    {
+        return $this->contact;
+    }
+
+    /**
+     * @return CustomerName
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
 }
