@@ -89,7 +89,7 @@ class Query
     /**
      * @param TransactionType $transactionType
      */
-    public function setTransactionType($transactionType)
+    public function setTransactionType(TransactionType $transactionType)
     {
         $this->transactionType = $transactionType;
     }
@@ -185,7 +185,7 @@ class Query
     /**
      * @param Identification $identification
      */
-    public function setIdentification($identification)
+    public function setIdentification(Identification $identification)
     {
         $this->identification = $identification;
     }
@@ -278,7 +278,7 @@ class Query
     /**
      * @param \Mnel\Peach\Query\Request\Criteria\ProcessingResult $processingResult
      */
-    public function setProcessingResult($processingResult)
+    public function setProcessingResult(ProcessingResult $processingResult)
     {
         $this->processingResult = $processingResult;
     }
@@ -294,7 +294,7 @@ class Query
     /**
      * @param Account $account
      */
-    public function setAccount($account)
+    public function setAccount(Account $account)
     {
         $this->account = $account;
     }
