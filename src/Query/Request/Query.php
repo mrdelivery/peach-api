@@ -71,7 +71,7 @@ class Query
     /** @var TransactionType */
     private $transactionType = null;
 
-    public function __construct($entity, User $user, Period $period)
+    public function __construct($entity, User $user, Period $period = null)
     {
         $this->entity = $entity;
         $this->user = $user;
@@ -196,6 +196,14 @@ class Query
     public function getPeriod()
     {
         return $this->period;
+    }
+
+    /**
+     * @param Period $period
+     */
+    public function setPeriod(Period $period)
+    {
+        $this->period = $period;
     }
 
     /**
