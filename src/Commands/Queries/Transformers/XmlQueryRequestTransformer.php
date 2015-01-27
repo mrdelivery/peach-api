@@ -26,9 +26,11 @@ class XmlQueryRequestTransformer implements QueryRequestTransformer
         $xmlRequest->Query->User->addAttribute('login', $request->getQuery()->getUser()->getLogin());
         $xmlRequest->Query->User->addAttribute('pwd', $request->getQuery()->getUser()->getPassword());
 
-        $xmlRequest->Query->addChild('Period');
-        $xmlRequest->Query->Period->addAttribute('from', $request->getQuery()->getPeriod()->getFrom());
-        $xmlRequest->Query->Period->addAttribute('to', $request->getQuery()->getPeriod()->getTo());
+        if ($period = $request->getQuery()->getPeriod()) {
+            $xmlRequest->Query->addChild('Period');
+            $xmlRequest->Query->Period->addAttribute('from', $period->getFrom());
+            $xmlRequest->Query->Period->addAttribute('to', $period->getTo());
+        }
 
         if ($identification = $request->getQuery()->getIdentification()) {
             $this->setIdentification($identification, $xmlRequest);
