@@ -57,7 +57,7 @@ class Transaction
         '000.400.090',
     ];
 
-    function __construct($mode, $channel, $response, $source, Identification $identification, Payment $payment, Account $account, Customer $customer, Processing $processing)
+    function __construct($mode, $channel, $response, $source, Identification $identification, Payment $payment, Processing $processing)
     {
         $this->mode = $mode;
         $this->channel = $channel;
@@ -65,8 +65,6 @@ class Transaction
         $this->source = $source;
         $this->identification = $identification;
         $this->payment = $payment;
-        $this->account = $account;
-        $this->customer = $customer;
         $this->processing = $processing;
     }
 
@@ -143,6 +141,22 @@ class Transaction
     public function getAccount()
     {
         return $this->account;
+    }
+
+    /**
+     * @param Account $account
+     */
+    public function setAccount($account)
+    {
+        $this->account = $account;
+    }
+
+    /**
+     * @param Customer $customer
+     */
+    public function setCustomer($customer)
+    {
+        $this->customer = $customer;
     }
 
     /**

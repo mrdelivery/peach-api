@@ -38,8 +38,6 @@ class XmlQueryResponseTransformer implements QueryResponseTransformer
         foreach ($xml->Result->Transaction as $xmlTransaction) {
             $identification = $this->parseIdentification($xmlTransaction);
             $payment = $this->parsePayment($xmlTransaction);
-            $account = $this->parseAccount($xmlTransaction);
-            $customer = $this->parseCustomer($xmlTransaction);
             $processing = $this->parseProcessing($xmlTransaction);
 
             $mode = (string) $xmlTransaction->attributes()['mode'];
@@ -47,9 +45,19 @@ class XmlQueryResponseTransformer implements QueryResponseTransformer
             $response = (string) $xmlTransaction->attributes()['response'];
             $source = (string) $xmlTransaction->attributes()['source'];
 
-            $transactions[] = new Transaction(
-                $mode, $channel, $response, $source, $identification, $payment, $account, $customer, $processing
+            $transaction = new Transaction(
+                $mode, $channel, $response, $source, $identification, $payment, $processing
             );
+
+            if ($account = $this->parseAccount($xmlTransaction)) {
+                $transaction->setAccount($account);
+            }
+
+            if ($customer = $this->parseCustomer($xmlTransaction)) {
+                $transaction->setCustomer($customer);
+            }
+
+            $transactionss[] = $transaction;
         }
 
         $resultResponse = (string) $xml->Result->attributes()['response'];
