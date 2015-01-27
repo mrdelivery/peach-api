@@ -113,6 +113,10 @@ class XmlQueryResponseTransformer implements QueryResponseTransformer
      */
     protected function parseAccount($xmlTransaction)
     {
+        if (empty($xmlTransaction->Account)) {
+            return null;
+        }
+
         $expiry = $xmlTransaction->Account->Expiry->attributes();
 
         return new Account(
@@ -133,6 +137,10 @@ class XmlQueryResponseTransformer implements QueryResponseTransformer
      */
     protected function parseCustomer($xmlTransaction)
     {
+        if (empty($xmlTransaction->Customer)) {
+            return null;
+        }
+
         $address = new CustomerAddress(
             (string) $xmlTransaction->Customer->Address->Street,
             (string) $xmlTransaction->Customer->Address->City,
