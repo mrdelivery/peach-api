@@ -73,12 +73,13 @@ class XmlQueryResponseTransformer implements QueryResponseTransformer
      */
     protected function parseIdentification($xmlTransaction)
     {
-        $shortId = (string) $xmlTransaction->Identification->ShortID;
-        $uniqueId = (string) $xmlTransaction->Identification->UniqueID;
-        $transactionId = (string) $xmlTransaction->Identification->TransactionID;
-        $bulkId = (string) $xmlTransaction->Identification->BulkID;
-        $invoiceId = (string) $xmlTransaction->Identification->InvoiceID;
-        return new Identification($shortId, $uniqueId, $transactionId, $bulkId, $invoiceId);
+        return new Identification(
+            (string) $xmlTransaction->Identification->ShortID,
+            (string) $xmlTransaction->Identification->UniqueID,
+            (string) $xmlTransaction->Identification->TransactionID,
+            (string) $xmlTransaction->Identification->BulkID,
+            (string) $xmlTransaction->Identification->InvoiceID
+        );
     }
 
     /**
@@ -87,17 +88,19 @@ class XmlQueryResponseTransformer implements QueryResponseTransformer
      */
     protected function parsePayment($xmlTransaction)
     {
-        $clrAmount = (string) $xmlTransaction->Payment->Clearing->Amount;
-        $clrCurrency = (string) $xmlTransaction->Payment->Clearing->Currency;
-        $clrDescriptor = (string) $xmlTransaction->Payment->Clearing->Descriptor;
-        $clrFxRate = (string) $xmlTransaction->Payment->Clearing->FxRate;
-        $clrFxSource = (string) $xmlTransaction->Payment->Clearing->FxSource;
-        $clrFxDate = (string) $xmlTransaction->Payment->Clearing->FxDate;
-        $clearing = new Clearing($clrAmount, $clrCurrency, $clrDescriptor, $clrFxRate, $clrFxSource, $clrFxDate);
+        $clearing = new Clearing(
+            (string) $xmlTransaction->Payment->Clearing->Amount,
+            (string) $xmlTransaction->Payment->Clearing->Currency,
+            (string) $xmlTransaction->Payment->Clearing->Descriptor,
+            (string) $xmlTransaction->Payment->Clearing->FxRate,
+            (string) $xmlTransaction->Payment->Clearing->FxSource,
+            (string) $xmlTransaction->Payment->Clearing->FxDate
+        );
 
-        $prsAmount = (string) $xmlTransaction->Payment->Presentation->Amount;
-        $prsCurrency = (string) $xmlTransaction->Payment->Presentation->Currency;
-        $presentation = new Presentation($prsAmount, $prsCurrency);
+        $presentation = new Presentation(
+            (string) $xmlTransaction->Payment->Presentation->Amount,
+            (string) $xmlTransaction->Payment->Presentation->Currency
+        );
 
         $code = (string) $xmlTransaction->Payment->attributes()['code'];
 
@@ -110,17 +113,18 @@ class XmlQueryResponseTransformer implements QueryResponseTransformer
      */
     protected function parseAccount($xmlTransaction)
     {
-        $number = (string) $xmlTransaction->Account->Number;
-        $holder = (string) $xmlTransaction->Account->Holder;
-        $brand = (string) $xmlTransaction->Account->Brand;
-        $month = (int) $xmlTransaction->Account->Month;
-        $year = (int) $xmlTransaction->Account->Year;
         $expiry = $xmlTransaction->Account->Expiry->attributes();
-        $expiryMonth = (int) $expiry['month'];
-        $expiryYear = (int) $expiry['year'];
-        $registrationId = (string) $xmlTransaction->Account->RegistrationId;
 
-        return new Account($number, $holder, $brand, $month, $year, $registrationId, $expiryMonth, $expiryYear);
+        return new Account(
+            (string) $xmlTransaction->Account->Number,
+            (string) $xmlTransaction->Account->Holder,
+            (string) $xmlTransaction->Account->Brand,
+            (int) $xmlTransaction->Account->Month,
+            (int) $xmlTransaction->Account->Year,
+            (string) $xmlTransaction->Account->RegistrationId,
+            (int) $expiry['month'],
+            (int) $expiry['year']
+        );
     }
 
     /**
@@ -129,23 +133,26 @@ class XmlQueryResponseTransformer implements QueryResponseTransformer
      */
     protected function parseCustomer($xmlTransaction)
     {
-        $street = (string) $xmlTransaction->Customer->Address->Street;
-        $city = (string) $xmlTransaction->Customer->Address->City;
-        $state = (string) $xmlTransaction->Customer->Address->State;
-        $country = (string) $xmlTransaction->Customer->Address->Country;
-        $zip = (string) $xmlTransaction->Customer->Address->Zip;
-        $address = new CustomerAddress($street, $city, $state, $country, $zip);
+        $address = new CustomerAddress(
+            (string) $xmlTransaction->Customer->Address->Street,
+            (string) $xmlTransaction->Customer->Address->City,
+            (string) $xmlTransaction->Customer->Address->State,
+            (string) $xmlTransaction->Customer->Address->Country,
+            (string) $xmlTransaction->Customer->Address->Zip
+        );
 
-        $email = (string) $xmlTransaction->Customer->Contact->Email;
-        $ip = (string) $xmlTransaction->Customer->Contact->Ip;
-        $mobile = (string) $xmlTransaction->Customer->Contact->Mobile;
-        $phone = (string) $xmlTransaction->Customer->Contact->Phone;
-        $contact = new CustomerContact($email, $ip, $mobile, $phone);
+        $contact = new CustomerContact(
+            (string) $xmlTransaction->Customer->Contact->Email,
+            (string) $xmlTransaction->Customer->Contact->Ip,
+            (string) $xmlTransaction->Customer->Contact->Mobile,
+            (string) $xmlTransaction->Customer->Contact->Phone
+        );
 
-        $family = (string) $xmlTransaction->Customer->Name->Family;
-        $given = (string) $xmlTransaction->Customer->Name->Given;
-        $salutation = (string) $xmlTransaction->Customer->Name->Salutation;
-        $name = new CustomerName($family, $given, $salutation);
+        $name = new CustomerName(
+            (string) $xmlTransaction->Customer->Name->Family,
+            (string) $xmlTransaction->Customer->Name->Given,
+            (string) $xmlTransaction->Customer->Name->Salutation
+        );
 
         return new Customer($address, $contact, $name);
     }
@@ -156,19 +163,17 @@ class XmlQueryResponseTransformer implements QueryResponseTransformer
      */
     protected function parseProcessing($xmlTransaction)
     {
-        $code = (string) $xmlTransaction->Processing->attributes()['code'];
-        $timestamp = (string) $xmlTransaction->Processing->Timestamp;
-        $result = (string) $xmlTransaction->Processing->Result;
-        $status = (string) $xmlTransaction->Processing->Status;
-        $statusCode = (string) $xmlTransaction->Processing->Status->attributes()['code'];
-        $reason = (string) $xmlTransaction->Processing->Reason;
-        $reasonCode = (string) $xmlTransaction->Processing->Reason->attributes()['code'];
-        $return = (string) $xmlTransaction->Processing->Return;
-        $returnCode = (string) $xmlTransaction->Processing->Return->attributes()['code'];
-        $connectorTxId = (string) $xmlTransaction->Processing->ConnectorTxId;
-
         return new Processing(
-            $code, $timestamp, $result, $status, $statusCode, $reason, $reasonCode, $return, $returnCode, $connectorTxId
+            (string) $xmlTransaction->Processing->attributes()['code'],
+            (string) $xmlTransaction->Processing->Timestamp,
+            (string) $xmlTransaction->Processing->Result,
+            (string) $xmlTransaction->Processing->Status,
+            (string) $xmlTransaction->Processing->Status->attributes()['code'],
+            (string) $xmlTransaction->Processing->Reason,
+            (string) $xmlTransaction->Processing->Reason->attributes()['code'],
+            (string) $xmlTransaction->Processing->Return,
+            (string) $xmlTransaction->Processing->Return->attributes()['code'],
+            (string) $xmlTransaction->Processing->ConnectorTxId
         );
     }
 }
