@@ -57,7 +57,7 @@ class XmlQueryResponseTransformer implements QueryResponseTransformer
                 $transaction->setCustomer($customer);
             }
 
-            $transactionss[] = $transaction;
+            $transactions[] = $transaction;
         }
 
         $resultResponse = (string) $xml->Result->attributes()['response'];
