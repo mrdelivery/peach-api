@@ -30,6 +30,7 @@ class XmlQueryResponseTransformer implements QueryResponseTransformer
             $message = (string) $xml->Error->Return;
 
             return Response::makeError(
+                $response,
                 new ResponseError($timestamp, $returnCode, $message)
             );
         }
@@ -64,7 +65,7 @@ class XmlQueryResponseTransformer implements QueryResponseTransformer
         $resultType = (string) $xml->Result->attributes()['type'];
         $result = new Result($resultResponse, $resultType, $transactions);
 
-        return Response::makeResult($result);
+        return Response::makeResult($response, $result);
     }
 
     /**

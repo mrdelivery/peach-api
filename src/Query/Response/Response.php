@@ -4,29 +4,57 @@ class Response
 {
     /** @var Result */
     private $result;
-
     /** @var ResponseError */
     private $error;
+    /** @var string */
+    private $rawResponse;
 
-    protected function __construct(Result $result = null, ResponseError $error = null)
+    /**
+     * @param string        $rawResponse
+     * @param Result        $result
+     * @param ResponseError $error
+     */
+    protected function __construct($rawResponse, Result $result = null, ResponseError $error = null)
     {
+        $this->rawResponse = $rawResponse;
         $this->result = $result;
         $this->error = $error;
     }
 
-    public static function makeError(ResponseError $error)
+    /**
+     * @param string        $rawResponse
+     * @param ResponseError $error
+     * @return static
+     */
+    public static function makeError($rawResponse, ResponseError $error)
     {
-        return new static(null, $error);
+        return new static($rawResponse, null, $error);
     }
 
-    public static function makeResult(Result $result)
+    /**
+     * @param string $rawResponse
+     * @param Result $result
+     * @return static
+     */
+    public static function makeResult($rawResponse, Result $result)
     {
-        return new static($result);
+        return new static($rawResponse, $result);
     }
 
+    /**
+     * @return bool
+     */
     public function isError()
     {
         return !is_null($this->error);
+    }
+
+    /**
+     * @return string
+     */
+    public function getRawResponse()
+    {
+        return $this->rawResponse;
     }
 
     /**
