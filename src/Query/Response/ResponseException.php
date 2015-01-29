@@ -11,12 +11,20 @@ class ResponseException extends PeachException
      * @var Command
      */
     private $command;
+    /** @var string */
+    private $rawResponse;
 
-    function __construct(ResponseError $error, Command $command)
+    /**
+     * @param ResponseError $error
+     * @param Command       $command
+     * @param string        $rawResponse
+     */
+    function __construct(ResponseError $error, Command $command, $rawResponse)
     {
         parent::__construct($error->getMessage());
         $this->error = $error;
         $this->command = $command;
+        $this->rawResponse = $rawResponse;
     }
 
     /**
@@ -33,5 +41,13 @@ class ResponseException extends PeachException
     public function getCommand()
     {
         return $this->command;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRawResponse()
+    {
+        return $this->rawResponse;
     }
 }

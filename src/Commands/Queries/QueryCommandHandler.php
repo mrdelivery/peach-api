@@ -50,7 +50,7 @@ class QueryCommandHandler implements CommandHandler
         $response = $this->responseTransformer->transform($responseData);
 
         if ($responseError = $response->getError()) {
-            throw new ResponseException($responseError, $command);
+            throw new ResponseException($responseError, $command, $response->getRawResponse());
         }
 
         return $response;
