@@ -84,7 +84,7 @@ class Transaction
 
     public function isDebit()
     {
-        return in_array($this->getPayment()->getCode(), [ 'CC.RV', 'CC.RF' ]);
+        return in_array($this->getPayment()->getCode(), [ 'CC.RF' ]);
     }
 
     /**
