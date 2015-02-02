@@ -43,14 +43,14 @@ class QueryCommandHandler implements CommandHandler
     {
         $request = $command->getRequest();
 
-        $payload = $this->requestTransformer->transform($request);
+        $rawRequest = $this->requestTransformer->transform($request);
 
-        $responseData = $this->client->post($request->getUrl(), $payload);
+        $rawResponse = $this->client->post($request->getUrl(), $rawRequest);
 
-        $response = $this->responseTransformer->transform($responseData);
+        $response = $this->responseTransformer->transform($rawResponse);
 
         if ($responseError = $response->getError()) {
-            throw new ResponseException($responseError, $command, $response->getRawResponse());
+            throw new ResponseException($responseError, $command, $rawRequest, $rawResponse);
         }
 
         return $response;
