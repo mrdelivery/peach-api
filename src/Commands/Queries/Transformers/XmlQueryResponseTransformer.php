@@ -118,7 +118,10 @@ class XmlQueryResponseTransformer implements QueryResponseTransformer
             return null;
         }
 
-        $expiry = $xmlTransaction->Account->Expiry->attributes();
+        $expiry = null;
+        if ($xmlTransaction->Account->Expiry && $xmlTransaction->Account->Expiry->attributes()) {
+            $expiry = $xmlTransaction->Account->Expiry->attributes();
+        }
 
         return new Account(
             (string) $xmlTransaction->Account->Number,
@@ -127,8 +130,8 @@ class XmlQueryResponseTransformer implements QueryResponseTransformer
             (int) $xmlTransaction->Account->Month,
             (int) $xmlTransaction->Account->Year,
             (string) $xmlTransaction->Account->RegistrationId,
-            (int) $expiry['month'],
-            (int) $expiry['year']
+            is_null($expiry) ? null : (int) $expiry['month'],
+            is_null($expiry) ? null : (int) $expiry['year']
         );
     }
 
