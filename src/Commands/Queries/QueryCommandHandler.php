@@ -1,5 +1,6 @@
 <?php namespace Mnel\Peach\Commands\Queries;
 
+use Illuminate\Support\Facades\App;
 use Mnel\Peach\Client\Client;
 use Mnel\Peach\Commands\Command;
 use Mnel\Peach\Commands\CommandHandler;
@@ -42,12 +43,15 @@ class QueryCommandHandler implements CommandHandler
     public function process(QueryCommand $command)
     {
         $request = $command->getRequest();
-
         $rawRequest = $this->requestTransformer->transform($request);
-
-        $rawResponse = $this->client->post($request->getUrl(), $rawRequest);
+       // var_dump($rawRequest);
+        $rawResponse = $this->client->post($request->getUrl(), $rawRequest, ['timeout' => 60]);
+      //  var_dump($rawResponse);
 
         $response = $this->responseTransformer->transform($rawResponse);
+
+
+
 
         if ($responseError = $response->getError()) {
             throw new ResponseException($responseError, $command, $rawRequest, $rawResponse);

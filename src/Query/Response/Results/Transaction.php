@@ -1,6 +1,7 @@
 <?php namespace Mnel\Peach\Query\Response\Results;
 
 use Mnel\Peach\Query\Request\Criteria\ProcessingResult;
+use Mnel\Peach\Query\Request\Criteria\QueryMode;
 use Mnel\Peach\Query\Response\Results\Customers\Customer;
 use Mnel\Peach\Query\Response\Results\Payments\Payment;
 
@@ -54,7 +55,13 @@ class Transaction
         '000.400.060',
         '000.400.070',
         '000.400.080',
-        '000.400.090',
+        '000.400.090'
+    ];
+
+    public static $testSuccessfulReturnCodes = [
+        '000.100.110', // Request successfully processed in 'Merchant in Integrator Test Mode'
+        '000.100.111', // Request successfully processed in 'Merchant in Validator Test Mode'
+        '000.100.112'  // Request successfully processed in 'Merchant in Connector Test Mode'
     ];
 
     function __construct($mode, $channel, $response, $source, Identification $identification, Payment $payment, Processing $processing)
@@ -66,6 +73,7 @@ class Transaction
         $this->identification = $identification;
         $this->payment = $payment;
         $this->processing = $processing;
+
     }
 
     public function isSuccessful() //TODO: test
@@ -73,6 +81,10 @@ class Transaction
         $successfulResult = $this->getProcessing()->getResult() == ProcessingResult::ACK;
 
         $isSuccessfulReturnCode = in_array($this->getProcessing()->getReturnCode(), static::$successfulReturnCodes);
+
+        if ($this->mode != QueryMode::LIVE) {
+            $isSuccessfulReturnCode = in_array($this->getProcessing()->getReturnCode(), static::$testSuccessfulReturnCodes);
+        }
 
         return $successfulResult && $isSuccessfulReturnCode;
     }
